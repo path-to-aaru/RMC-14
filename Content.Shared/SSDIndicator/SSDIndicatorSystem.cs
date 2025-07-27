@@ -1,5 +1,7 @@
 using Content.Shared.CCVar;
 using Content.Shared.StatusEffectNew;
+using Content.Shared.Mind;
+using Content.Shared.Mind.Components;
 using Robust.Shared.Configuration;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
@@ -43,6 +45,14 @@ public sealed class SSDIndicatorSystem : EntitySystem
         }
 
         Dirty(uid, component);
+
+        if (TryComp<MindContainerComponent>(uid, out var mindContainer) &&
+        mindContainer.HasMind &&
+        TryComp<MindComponent>(mindContainer.Mind, out var mind))
+        {
+            mind.SSDStartTime = null;
+            Dirty(mindContainer.Mind.Value, mind);
+        }
     }
 
     private void OnPlayerDetached(EntityUid uid, SSDIndicatorComponent component, PlayerDetachedEvent args)
@@ -56,6 +66,14 @@ public sealed class SSDIndicatorSystem : EntitySystem
         }
 
         Dirty(uid, component);
+
+        if (TryComp<MindContainerComponent>(uid, out var mindContainer) &&
+        mindContainer.HasMind &&
+        TryComp<MindComponent>(mindContainer.Mind, out var mind))
+        {
+            mind.SSDStartTime = _timing.CurTime;
+            Dirty(mindContainer.Mind.Value, mind);
+        }
     }
 
     // Prevents mapped mobs to go to sleep immediately

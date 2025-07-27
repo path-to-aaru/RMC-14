@@ -16,6 +16,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Utility;
+using Robust.Shared.Timing;
 
 namespace Content.Shared.Mind;
 
@@ -29,6 +30,7 @@ public abstract partial class SharedMindSystem : EntitySystem
     [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
     [Dependency] private readonly MetaDataSystem _metadata = default!;
     [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     [ViewVariables]
     protected readonly Dictionary<NetUserId, EntityUid> UserMinds = new();
@@ -179,7 +181,21 @@ public abstract partial class SharedMindSystem : EntitySystem
         else if (hasUserId == null)
             args.PushMarkup($"[color=mediumpurple]{Loc.GetString("comp-mind-examined-catatonic", ("ent", uid))}[/color]");
         else if (!hasActiveSession)
-            args.PushMarkup($"[color=yellow]{Loc.GetString("comp-mind-examined-ssd", ("ent", uid))}[/color]");
+        {
+            string ssdMessage;
+            if (mind?.SSDStartTime != null)
+            {
+                var elapsed = _timing.CurTime - mind.SSDStartTime.Value;
+                var minutes = (int)elapsed.TotalMinutes;
+                var seconds = elapsed.Seconds;
+                ssdMessage = Loc.GetString("comp-mind-examined-ssd-time", ("ent", uid), ("minutes", minutes), ("seconds", seconds));
+            }
+            else
+                ssdMessage = Loc.GetString("comp-mind-examined-ssd", ("ent", uid));
+
+            args.PushMarkup($"[color=yellow]{ssdMessage}[/color]");
+        }
+
     }
 
     /// <summary>

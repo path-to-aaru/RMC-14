@@ -23,7 +23,7 @@ namespace Content.Shared.Mind;
 ///     Minds are stored in null-space, and are thus generally not set to players unless that player is the owner
 ///     of the mind. As a result it should be safe to network "secret" information like roles & objectives
 /// </remarks>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
+[RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true), AutoGenerateComponentPause]
 public sealed partial class MindComponent : Component
 {
     [DataField, AutoNetworkedField]
@@ -116,4 +116,10 @@ public sealed partial class MindComponent : Component
     /// </summary>
     [DataField]
     public LocId? Subtype;
+
+    /// <summary>
+    ///     When the player went SSD
+    /// </summary>
+    [DataField, AutoNetworkedField, AutoPausedField]
+    public TimeSpan? SSDStartTime;
 }
