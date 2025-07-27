@@ -19,6 +19,7 @@ public sealed class SSDIndicatorSystem : EntitySystem
     [Dependency] private readonly IConfigurationManager _cfg = default!;
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedStatusEffectsSystem _statusEffects = default!;
+    [Dependency] private readonly SharedMindSystem _mindSystem = default!;
 
     private bool _icSsdSleep;
     private float _icSsdSleepTime;
@@ -47,7 +48,7 @@ public sealed class SSDIndicatorSystem : EntitySystem
         Dirty(uid, component);
 
         // RMC14 - When player has reconnected, clear the SSD start time marker
-        if (TryGetMind(uid, out var mindId, out var mind))
+        if (_mindSystem.TryGetMind(uid, out var mindId, out var mind))
         {
             mind.SSDStartTime = null;
             Dirty(mindId, mind);
@@ -67,7 +68,7 @@ public sealed class SSDIndicatorSystem : EntitySystem
         Dirty(uid, component);
 
         // RMC14 - Note when user goes SSD to display elapsed time on examine
-        if (TryGetMind(uid, out var mindId, out var mind))
+        if (_mindSystem.TryGetMind(uid, out var mindId, out var mind))
         {
             mind.SSDStartTime = _timing.CurTime;
             Dirty(mindId, mind);
