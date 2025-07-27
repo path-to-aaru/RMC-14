@@ -182,20 +182,14 @@ public abstract partial class SharedMindSystem : EntitySystem
             args.PushMarkup($"[color=mediumpurple]{Loc.GetString("comp-mind-examined-catatonic", ("ent", uid))}[/color]");
         else if (!hasActiveSession)
         {
-            string ssdMessage;
-            if (mind?.SSDStartTime != null)
-            {
-                var elapsed = _timing.CurTime - mind.SSDStartTime.Value;
-                var minutes = (int)elapsed.TotalMinutes;
-                var seconds = elapsed.Seconds;
-                ssdMessage = Loc.GetString("comp-mind-examined-ssd-time", ("ent", uid), ("minutes", minutes), ("seconds", seconds));
-            }
-            else
-                ssdMessage = Loc.GetString("comp-mind-examined-ssd", ("ent", uid));
-
+            //RMC-14 - SSD message with time elapsed
+            var ssdMessage = mind?.SSDStartTime != null
+                ? Loc.GetString("comp-mind-examined-ssd-time", ("ent", uid),
+                    ("minutes", (int)(_timing.CurTime - mind.SSDStartTime.Value).TotalMinutes),
+                    ("seconds", (_timing.CurTime - mind.SSDStartTime.Value).Seconds))
+                : Loc.GetString("comp-mind-examined-ssd", ("ent", uid));
             args.PushMarkup($"[color=yellow]{ssdMessage}[/color]");
         }
-
     }
 
     /// <summary>

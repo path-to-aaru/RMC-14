@@ -118,7 +118,7 @@ public sealed partial class MindComponent : Component
     public LocId? Subtype;
 
     /// <summary>
-    ///     When the player went SSD
+    ///     RMC 14 - Marks when the entity began SSD
     /// </summary>
     [DataField, AutoNetworkedField, AutoPausedField]
     public TimeSpan? SSDStartTime;

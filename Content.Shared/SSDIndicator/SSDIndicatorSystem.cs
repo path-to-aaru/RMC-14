@@ -46,12 +46,11 @@ public sealed class SSDIndicatorSystem : EntitySystem
 
         Dirty(uid, component);
 
-        if (TryComp<MindContainerComponent>(uid, out var mindContainer) &&
-        mindContainer.HasMind &&
-        TryComp<MindComponent>(mindContainer.Mind, out var mind))
+        // RMC14 - When player has reconnected, clear the SSD start time marker
+        if (TryGetMind(uid, out var mindId, out var mind))
         {
             mind.SSDStartTime = null;
-            Dirty(mindContainer.Mind.Value, mind);
+            Dirty(mindId, mind);
         }
     }
 
@@ -67,12 +66,11 @@ public sealed class SSDIndicatorSystem : EntitySystem
 
         Dirty(uid, component);
 
-        if (TryComp<MindContainerComponent>(uid, out var mindContainer) &&
-        mindContainer.HasMind &&
-        TryComp<MindComponent>(mindContainer.Mind, out var mind))
+        // RMC14 - Note when user goes SSD to display elapsed time on examine
+        if (TryGetMind(uid, out var mindId, out var mind))
         {
             mind.SSDStartTime = _timing.CurTime;
-            Dirty(mindContainer.Mind.Value, mind);
+            Dirty(mindId, mind);
         }
     }
 
