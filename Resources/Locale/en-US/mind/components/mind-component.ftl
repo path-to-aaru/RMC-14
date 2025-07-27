@@ -9,4 +9,10 @@ comp-mind-examined-dead = { CAPITALIZE(SUBJECT($ent)) } { CONJUGATE-BE($ent) } d
 comp-mind-examined-ssd = { CAPITALIZE(SUBJECT($ent)) } { CONJUGATE-HAVE($ent) } a blank, absent-minded stare and appears completely unresponsive to anything. { CAPITALIZE(SUBJECT($ent)) } may snap out of it soon.
 comp-mind-examined-dead-and-ssd = { CAPITALIZE(POSS-ADJ($ent)) } soul lies dormant and may return soon.
 comp-mind-examined-dead-and-irrecoverable = { CAPITALIZE(POSS-ADJ($ent)) } soul has departed and moved on. Any recovery is impossible.
-comp-mind-examined-ssd-time = { CAPITALIZE(SUBJECT($ent)) } { CONJUGATE-HAVE($ent) } a blank, absent-minded stare and has been completely unresponsive to anything for { $minutes } minute(s) and { $seconds } second(s). { CAPITALIZE(SUBJECT($ent)) } may snap out of it soon.
+comp-mind-examined-ssd-time = { CAPITALIZE(SUBJECT($ent)) } { CONJUGATE-HAVE($ent) } a blank, absent-minded stare and { CONJUGATE-HAVE($ent) } been completely unresponsive to anything for { $minutes } { $minutes ->
+    [1] minute
+    *[other] minutes
+} and { $seconds } { $seconds ->
+    [1] second
+    *[other] seconds
+}. { CAPITALIZE(SUBJECT($ent)) } may snap out of it soon.
