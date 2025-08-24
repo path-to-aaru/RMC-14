@@ -140,6 +140,7 @@ namespace Content.Client.Entry
             _extendedDisconnectInformation.Initialize();
             _jobRequirements.Initialize();
             _playbackMan.Initialize();
+            IoCManager.Resolve<ReplayAutoQuitSystem>().Initialize();
             _clientsidePlaytimeManager.Initialize();
 
             //AUTOSCALING default Setup!

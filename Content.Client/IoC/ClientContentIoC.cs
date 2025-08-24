@@ -70,6 +70,9 @@ namespace Content.Client.IoC
             collection.Register<LinkAccountManager>();
             collection.Register<RMCPlayTimeManager>();
             collection.Register<CommendationsManager>();
+
+            // Replay Parser
+            collection.Register<ReplayAutoQuitSystem>();
         }
     }
 }

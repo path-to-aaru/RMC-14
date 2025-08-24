@@ -75,6 +75,13 @@ public sealed class ContentReplayPlaybackManager
         _playback.ReplayPlaybackStarted += OnReplayPlaybackStarted;
         _playback.ReplayCheckpointReset += OnCheckpointReset;
         _loadMan.LoadOverride += LoadOverride;
+
+        _playback.ReplayPlaybackStarted += (_, __) =>
+        {
+            _playback.Playing = true;
+        };
+
+        _playback.ReplayPlaybackStopped += () => _controller.Shutdown("Replay finished");
     }
 
     private void LoadOverride(IReplayFileReader fileReader)
